@@ -1,7 +1,8 @@
 import "../styles/styles.css";
 import { courses } from "./data/courses.js";
 import { loadInscriptions, resetDemoData, saveInscriptions } from "./storage.js";
-import { calculateStatistics } from "./utils.js";
+import { calculateStatistics, escapeHTML } from "./utils.js";
+import { isValidName, isValidPhone, isDuplicateRegistration, isGroupFull } from "./validation.js";
 import { renderTable } from "./ui/table.js";
 
 const body = document.getElementById("registrations-body");
@@ -36,9 +37,32 @@ const newPhoneInput = document.getElementById("new-phone");
 const newStatusInput = document.getElementById("new-status");
 const newLevelInput = document.getElementById("new-level");
 const newDateInput = document.getElementById("new-date");
+const newErrorMessage = document.getElementById("new-registration-error");
+const editErrorMessage = document.getElementById("edit-registration-error");
+
+// Check a registration before saving it. Returns an error message, or "" if everything is fine.
+// ignoreId = the registration being edited (so it is not counted as its own duplicate).
+function checkRegistration(student, phone, courseId, ignoreId = null) {
+    if (!isValidName(student)) return "Enter the student's name (at least 2 characters).";
+    if (!isValidPhone(phone)) return "Invalid phone number. Example: 0612345678 or +212612345678.";
+    if (isDuplicateRegistration(registrations, student, courseId, ignoreId)) {
+        return "This student is already registered in this course.";
+    }
+    if (isGroupFull(registrations, courseId, ignoreId)) {
+        return "This group is full (15 students maximum).";
+    }
+    return "";
+}
+
+// Today's date in the yyyy-mm-dd format used by <input type="date">.
+function today() {
+    return new Date().toISOString().slice(0, 10);
+}
 
 
 newRegistrationButton.addEventListener("click", () => {
+    newErrorMessage.textContent = "";
+    newDateInput.value = today();
     newRegistrationDialog.showModal();
 });
 
@@ -62,11 +86,17 @@ newRegistrationForm.addEventListener("submit", (event) => {
 
     if (!selectedCourse) return;
 
+    const error = checkRegistration(newStudentInput.value, newPhoneInput.value, selectedCourse.id);
+    if (error) {
+        newErrorMessage.textContent = error;
+        return;
+    }
+
     const newRegistration = {
         id: Date.now(),
         dossier: `NA-${new Date().getFullYear()}-${Date.now()}`,
         student: newStudentInput.value.trim(),
-        phone: newPhoneInput.value.trim(),
+        phone: newPhoneInput.value.replace(/\s/g, ""),
         level: newLevelInput.value,
         courseId: selectedCourse.id,
         course: selectedCourse.title,
@@ -96,7 +126,6 @@ courseInput.innerHTML = courses.map((course) =>
 
 
 function renderDashboard() {
-    count.textContent = `${registrations.length} registrations`;
     summary.textContent = `${registrations.length} registrations across the 3 centers`;
     filterRegistrations();
     updateStatistics();
@@ -113,9 +142,12 @@ function updateStatistics() {
     document.getElementById("stat-revenue").textContent =
         `${new Intl.NumberFormat("en-US").format(statistics.revenue)} MAD`;
     document.getElementById("occupancy-list").innerHTML = statistics.occupancy.map((course) => `
-        <li class="flex justify-between gap-4 border-b border-[var(--color-soft)] py-2">
-            <span>${course.title}</span>
-            <span class="shrink-0">${course.students} / 15 (${course.percentage}%)</span>
+        <li class="grid gap-2 border-b border-line py-3">
+            <div class="flex justify-between gap-4 text-sm">
+                <span class="text-ink">${escapeHTML(course.title)}</span>
+                <span class="shrink-0 tabular-nums ${course.students >= 15 ? "font-semibold text-alert" : "text-muted"}">${course.students} / 15 · ${course.percentage}%</span>
+            </div>
+            <progress class="meter ${course.students >= 15 ? "is-full" : ""}" value="${Math.min(course.students, 15)}" max="15" aria-label="Occupancy of ${escapeHTML(course.title)}"></progress>
         </li>
     `).join("");
 }
@@ -143,7 +175,7 @@ body.addEventListener("click", (event) => {
         const confirmed=confirm("Are you want to delete this registration?")
         if(!confirmed) return
         registrations=registrations.filter(
-            (registration)=>registration.id !=registrationId
+            (registration)=>registration.id !== registrationId
 
         )
         saveInscriptions(registrations)
@@ -170,6 +202,7 @@ body.addEventListener("click", (event) => {
     courseInput.value = String(registration.courseId);
     statusInput.value = registration.status;
     dateInput.value = registration.date;
+    editErrorMessage.textContent = "";
     editDialog.showModal();
 });
 
@@ -181,12 +214,18 @@ editForm.addEventListener("submit", (event) => {
     const selectedCourse = courses.find(({ id }) => id === Number(courseInput.value));
     if (!selectedCourse) return;
 
+    const error = checkRegistration(studentInput.value, phoneInput.value, selectedCourse.id, editingRegistrationId);
+    if (error) {
+        editErrorMessage.textContent = error;
+        return;
+    }
+
     registrations = registrations.map((registration) =>
         registration.id === editingRegistrationId
             ? {
                 ...registration,
                 student: studentInput.value.trim(),
-                phone: phoneInput.value.trim(),
+                phone: phoneInput.value.replace(/\s/g, ""),
                 level: levelInput.value,
                 courseId: selectedCourse.id,
                 course: selectedCourse.title,
@@ -210,14 +249,39 @@ cancelEditButton.addEventListener("click", () => {
 
 // Restore the demo registrations.
 resetButton.addEventListener("click", () => {
+    const confirmed = confirm("Reset the demo data? All changes will be lost.");
+    if (!confirmed) return;
     registrations = resetDemoData();
+    currentPage = 1;
     renderDashboard();
 });
 
 // Afficher les inscriptions dans le tableau
-function renderRegistration(liste) {
+// liste = rows of the current page, total = number of results after search and filter
+function renderRegistration(liste, total) {
     renderTable(liste);
-    count.textContent = `${liste.length} registrations`;
+    count.textContent = `${total} registrations`;
+}
+
+// Remember the search, filter and sort during the session (sessionStorage).
+function saveFilters() {
+    sessionStorage.setItem("nour_filters", JSON.stringify({
+        search: searchInput.value,
+        status: statusFilter.value,
+        sort: sortBy.value
+    }));
+}
+
+function restoreFilters() {
+    try {
+        const saved = JSON.parse(sessionStorage.getItem("nour_filters"));
+        if (!saved) return;
+        searchInput.value = saved.search;
+        statusFilter.value = saved.status;
+        sortBy.value = saved.sort;
+    } catch (error) {
+        sessionStorage.removeItem("nour_filters");
+    }
 }
 
 // Recherche + filtre Status + tri
@@ -274,7 +338,7 @@ const paginatedResults = results.slice(
 );
 
 // Display current page
-renderRegistration(paginatedResults);
+renderRegistration(paginatedResults, results.length);
 
 // Update pagination controls
 pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
@@ -298,16 +362,19 @@ nextButton.addEventListener("click", () => {
 // Reset to page 1 when searching or filtering
 searchInput.addEventListener("input", () => {
     currentPage = 1;
+    saveFilters();
     filterRegistrations();
 });
 
 statusFilter.addEventListener("change", () => {
     currentPage = 1;
+    saveFilters();
     filterRegistrations();
 });
 
 sortBy.addEventListener("change", () => {
     currentPage = 1;
+    saveFilters();
     filterRegistrations();
 });
 
@@ -318,4 +385,5 @@ window.addEventListener("storage", (event) => {
 });
 
 
+restoreFilters();
 renderDashboard();

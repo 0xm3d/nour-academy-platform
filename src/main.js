@@ -41,29 +41,40 @@ function showCourses() {
 
     // normal case, changed below if the course is full
     let seats = c.seatsRemaining + " seats left";
-    let buttonText = "Select this course";
+    let buttonText = "Add to my selection";
     let disabled = "";
 
     if (c.seatsRemaining === 0) {
       seats = "Full";
-      buttonText = "Selection unavailable";
+      buttonText = "Course full";
       disabled = "disabled";
     }
 
     // add one card
+    // badge colour: red when full, saffron when only a few seats are left
+    let badge = "badge-neutral";
+    if (c.seatsRemaining === 0) badge = "badge-alert";
+    else if (c.seatsRemaining <= 3) badge = "badge-pending";
+
     catalog.innerHTML += `
-      <article class="flex flex-col gap-2 rounded-xl border border-[var(--color-soft)] bg-white p-5 hover:translate-y-1 hover:shadow-2xl">
-        <span class="self-end rounded-full bg-[var(--color-soft)] px-3 py-1 text-xs">${seats}</span>
-        <p class="text-xs font-semibold text-[var(--color-muted)]">${c.subject}</p>
-        <h3 class="text-[20px] font-semibold text-[var(--color-primary)]">${c.title}</h3>
-        <p class="text-sm">${c.level}</p>
-        <p class="text-sm">${c.schedule}</p>
-        <p class="text-sm">${c.center}</p>
-        <p class="mt-2 text-2xl font-semibold text-[var(--color-primary)]">${c.price} MAD / month</p>
-        <button type="button" data-action="add" data-id="${c.id}" ${disabled}
-          class="mt-2 min-h-11 rounded-md bg-[var(--color-primary)] px-4 text-sm text-white disabled:opacity-50">
-          ${buttonText}
-        </button>
+      <article class="group flex flex-col rounded-xl border border-line bg-card p-5 transition duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-md">
+        <div class="flex items-center justify-between gap-3">
+          <p class="text-xs font-semibold tracking-wider text-brand uppercase">${c.subject}</p>
+          <span class="badge ${badge}">${seats}</span>
+        </div>
+        <h3 class="mt-3 font-serif text-[1.375rem] leading-snug font-medium text-ink">${c.title}</h3>
+        <ul class="mt-4 mb-5 grid gap-1.5 text-sm text-muted">
+          <li class="flex items-center gap-2.5"><i class="fa-solid fa-graduation-cap w-4 text-center" aria-hidden="true"></i>${c.level}</li>
+          <li class="flex items-center gap-2.5"><i class="fa-regular fa-clock w-4 text-center" aria-hidden="true"></i>${c.schedule}</li>
+          <li class="flex items-center gap-2.5"><i class="fa-solid fa-location-dot w-4 text-center" aria-hidden="true"></i>${c.center}</li>
+        </ul>
+        <div class="mt-auto flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
+          <p class="text-ink"><span class="font-serif text-2xl">${c.price}</span> <span class="text-sm text-muted">MAD / month</span></p>
+          <button type="button" data-action="add" data-id="${c.id}" ${disabled}
+            class="btn btn-secondary btn-sm min-h-11 enabled:group-hover:border-brand enabled:group-hover:text-brand">
+            ${buttonText}
+          </button>
+        </div>
       </article>`;
   }
 
@@ -105,6 +116,8 @@ function removeCourse(id) {
 // redraws the cart: rows, total, count
 function showCart() {
   let total = 0;
+  // a course was added, so the "add at least one course" error is no longer true
+  if (selected.length > 0) document.getElementById("selection-error").textContent = "";
   cartList.innerHTML = "";
 
   for (let i = 0; i < selected.length; i++) {
@@ -112,13 +125,13 @@ function showCart() {
     total += c.price;
 
     cartList.innerHTML += `
-      <div class="mb-3 flex items-start justify-between gap-3">
+      <div class="flex items-start justify-between gap-3 border-b border-line py-3 first:pt-0 animate-rise">
         <div>
-          <p class="text-sm font-semibold text-[var(--color-primary)]">${c.title}</p>
-          <p class="text-xs text-[var(--color-muted)]">${c.price} MAD / month</p>
+          <p class="text-sm font-semibold text-ink">${c.title}</p>
+          <p class="text-xs text-muted">${c.price} MAD / month</p>
         </div>
         <button type="button" data-action="remove" data-id="${c.id}"
-          class="min-h-11 px-2 text-red-500 text-xs text-[var(--color-primary)] underline">
+          class="-mr-2 min-h-11 shrink-0 rounded-md px-2 text-sm font-medium text-muted transition-colors hover:bg-alert-soft hover:text-alert">
           Remove
         </button>
       </div>`;

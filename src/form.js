@@ -1,6 +1,7 @@
 // grab the form fields
 import { courses } from "./data/courses.js";
 import { loadInscriptions, saveInscriptions } from "./storage.js";
+import { isValidName, isValidEmail, isValidPhone, isValidPassword, isDuplicateRegistration, isGroupFull } from "./validation.js";
 
 let form = document.getElementById("enroll-form");
 let parentName = document.getElementById("parent-name");
@@ -27,33 +28,38 @@ function show(input, ok, text) {
 
 // one check per field
 function checkParentName() {
-  if (parentName.value.trim().length < 4) return show(parentName, false, "Enter the parent's name.");
+  if (!isValidName(parentName.value)) return show(parentName, false, "Enter the parent's name.");
   return show(parentName, true, "Valid name.");
 }
 
 // email: something@something.something
 function checkEmail() {
-  let ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
-  if (!ok) return show(email, false, "Invalid email address. Example: name@example.com");
+  if (!isValidEmail(email.value)) return show(email, false, "Invalid email address. Example: name@example.com");
   return show(email, true, "Valid email address.");
 }
 
 // phone: 06/07 + 8 digits, or +212 6/7 + 8 digits
 function checkPhone() {
-  let number = phone.value.replace(/\s/g, "");
-  let ok = /^(0[67][0-9]{8}|\+212[67][0-9]{8})$/.test(number);
-  if (!ok) return show(phone, false, "Invalid number. Example: 0612345678 or +212612345678.");
+  if (!isValidPhone(phone.value)) return show(phone, false, "Invalid number. Example: 0612345678 or +212612345678.");
   return show(phone, true, "Valid phone number.");
 }
 
 function checkStudentName() {
-  if (studentName.value.trim().length < 4) return show(studentName, false, "Enter the student's first name.");
+  if (!isValidName(studentName.value)) return show(studentName, false, "Enter the student's first name.");
   return show(studentName, true, "Valid first name.");
 }
 
 function checkStudentLevel() {
   if (studentLevel.value === "") return show(studentLevel, false, "Choose the student's level.");
   return show(studentLevel, true, "Level selected.");
+}
+
+// password: 8 characters min., 1 uppercase letter, 1 digit, 1 special character
+function checkPassword() {
+  if (!isValidPassword(password.value)) {
+    return show(password, false, "At least 8 characters, with 1 uppercase letter, 1 digit and 1 special character.");
+  }
+  return show(password, true, "Strong enough password.");
 }
 
 function checkConfirmPassword() {
@@ -75,6 +81,7 @@ phone.addEventListener("input", checkPhone);
 studentName.addEventListener("input", checkStudentName);
 studentLevel.addEventListener("change", checkStudentLevel);
 password.addEventListener("input", function () {
+  checkPassword();
   if (confirmPassword.value !== "") checkConfirmPassword();
 });
 confirmPassword.addEventListener("input", checkConfirmPassword);
@@ -92,6 +99,7 @@ form.addEventListener("submit", function (event) {
   if (!checkPhone()) return phone.focus();
   if (!checkStudentName()) return studentName.focus();
   if (!checkStudentLevel()) return studentLevel.focus();
+  if (!checkPassword()) return password.focus();
   if (!checkConfirmPassword()) return confirmPassword.focus();
   if (!checkConsent()) return consent.focus();
 
@@ -114,9 +122,23 @@ form.addEventListener("submit", function (event) {
   }
 
   let student = studentName.value.trim();
+  let registrations = loadInscriptions();
+
+  // refuse a duplicate (same student, same course) or a full group (15 students)
+  for (let i = 0; i < selectedCourses.length; i++) {
+    let course = selectedCourses[i];
+    if (isDuplicateRegistration(registrations, student, course.id)) {
+      selectionError.textContent = student + " is already registered in " + course.title + ".";
+      return;
+    }
+    if (isGroupFull(registrations, course.id)) {
+      selectionError.textContent = course.title + " is full (15 students). Please remove it from your selection.";
+      return;
+    }
+  }
+
   let level = studentLevel.options[studentLevel.selectedIndex].text;
   let registrationNumber = "NA-" + new Date().getFullYear() + "-" + Date.now();
-  let registrations = loadInscriptions();
   let newRegistrations = selectedCourses.map((course, index) => ({
     id: Date.now() + index,
     dossier: registrationNumber,
@@ -126,7 +148,7 @@ form.addEventListener("submit", function (event) {
     level: level,
     courseId: course.id,
     course: course.title,
-    phone: phone.value.trim(),
+    phone: phone.value.replace(/\s/g, ""),
     status: "Pending",
     date: new Date().toISOString().slice(0, 10)
   }));

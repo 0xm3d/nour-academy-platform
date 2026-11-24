@@ -1,7 +1,7 @@
 import "../styles/styles.css";
 import { courses } from "./data/courses.js";
 import { loadInscriptions } from "./storage.js";
-import { calculateStatistics } from "./utils.js";
+import { calculateStatistics, escapeHTML } from "./utils.js";
 import { renderTable } from "./ui/table.js";
 
 const registrations = loadInscriptions();
@@ -14,9 +14,12 @@ document.getElementById("stat-paid").textContent = statistics.statusCounts.Paid;
 document.getElementById("stat-revenue").textContent =
     `${new Intl.NumberFormat("en-US").format(statistics.revenue)} MAD`;
 document.getElementById("occupancy-list").innerHTML = statistics.occupancy.map((course) => `
-    <li class="flex justify-between gap-4 border-b border-[var(--color-soft)] py-2">
-        <span>${course.title}</span>
-        <span class="shrink-0">${course.students} / 15 (${course.percentage}%)</span>
+    <li class="grid gap-2 border-b border-line py-3">
+        <div class="flex justify-between gap-4 text-sm">
+            <span class="text-ink">${escapeHTML(course.title)}</span>
+            <span class="shrink-0 tabular-nums ${course.students >= 15 ? "font-semibold text-alert" : "text-muted"}">${course.students} / 15 · ${course.percentage}%</span>
+        </div>
+        <progress class="meter ${course.students >= 15 ? "is-full" : ""}" value="${Math.min(course.students, 15)}" max="15" aria-label="Occupancy of ${escapeHTML(course.title)}"></progress>
     </li>
 `).join("");
 document.getElementById("registrations-count").textContent =

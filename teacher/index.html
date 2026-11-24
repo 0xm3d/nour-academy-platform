@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nour Academy · Teacher area</title>
+  <link rel="icon" href="../images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="src/styles.css">
+</head>
+
+<body class="lg:flex lg:h-dvh lg:flex-col">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="border-b border-line bg-card">
+    <div class="flex items-center justify-between gap-4 px-4 py-3 md:px-8">
+      <p class="wordmark">
+        <img src="../images/logo.svg" alt="">
+        <span>Nour <small>Teacher area</small></span>
+      </p>
+      <nav aria-label="Nour Academy spaces" class="flex items-center gap-4 text-sm">
+        <p class="hidden text-xs text-muted sm:block">Fictitious data · Law 09-08</p>
+        <a href="../index.html" class="btn btn-ghost btn-sm min-h-11" aria-label="Parent portal">
+          <i class="fa-solid fa-house text-xs" aria-hidden="true"></i>
+          <span class="hidden sm:inline">Parent portal</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+
+  <div class="lg:grid lg:min-h-0 lg:flex-1 lg:grid-cols-[1fr_22rem]">
+
+    <!-- ==================== MAIN AREA: attendance ==================== -->
+    <main class="p-4 md:p-8 lg:overflow-y-auto">
+      <div class="mx-auto max-w-3xl animate-rise">
+
+        <!-- Title + counter (US1) -->
+        <div class="flex items-end justify-between gap-3">
+          <div>
+            <p class="eyebrow">Today's session</p>
+            <h1 class="mt-2 font-serif text-4xl font-medium tracking-tight">Take attendance</h1>
+          </div>
+          <p id="counter" class="badge badge-neutral text-sm" aria-live="polite">15 students</p>
+        </div>
+
+
+        <!-- Search, group and sort -->
+        <div class="mt-6 grid gap-3 rounded-xl border border-line bg-card p-3 sm:grid-cols-[1fr_auto_auto]">
+          <div class="relative">
+            <label for="search" class="sr-only">Search for a student</label>
+            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-sm text-muted" aria-hidden="true"></i>
+            <input id="search" type="search" placeholder="Search by first or last name…" class="input pl-10">
+          </div>
+
+          <div>
+            <label for="group-filter" class="sr-only">Group</label>
+            <select id="group-filter" class="input sm:w-44">
+              <option value="">All groups</option>
+              <!-- The other options are created in JS from the "groups" array -->
+            </select>
+          </div>
+
+          <div>
+            <label for="sort" class="sr-only">Sort</label>
+            <select id="sort" class="input sm:w-44">
+              <option value="">Original order</option>
+              <option value="name">Sort by name</option>
+              <option value="average">Sort by average</option>
+            </select>
+          </div>
+        </div>
+
+
+        <!-- Add form, collapsed by default -->
+        <details class="group mt-4 overflow-hidden rounded-xl border border-line bg-card transition-shadow open:shadow-sm">
+          <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-4 font-semibold text-ink transition-colors hover:bg-paper md:px-5">
+            <span class="flex items-center gap-3">
+              <span class="grid size-8 place-items-center rounded-md bg-brand-soft text-brand">
+                <i class="fa-solid fa-user-plus text-xs" aria-hidden="true"></i>
+              </span>
+              Add a student
+            </span>
+            <i class="fa-solid fa-chevron-down text-xs text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true"></i>
+          </summary>
+
+          <form id="student-form" novalidate class="grid gap-4 border-t border-line p-4 sm:grid-cols-2 md:p-5">
+
+            <div class="field form-field">
+              <label for="first-name" class="form-label">First name</label>
+              <input id="first-name" name="firstName" type="text" autocomplete="off" aria-describedby="first-name-msg" class="input">
+              <p id="first-name-msg" class="message text-xs text-muted">At least 2 letters, spaces or hyphens.</p>
+            </div>
+
+            <div class="field form-field">
+              <label for="last-name" class="form-label">Last name</label>
+              <input id="last-name" name="lastName" type="text" autocomplete="off" aria-describedby="last-name-msg" class="input">
+              <p id="last-name-msg" class="message text-xs text-muted">2 characters minimum: letters, spaces or hyphens.</p>
+            </div>
+
+            <div class="field form-field">
+              <label for="group" class="form-label">Group</label>
+              <select id="group" name="group" aria-describedby="group-msg" class="input">
+                <option value="">Choose a group</option>
+              </select>
+              <p id="group-msg" class="message text-xs text-muted">Choose a group.</p>
+            </div>
+
+            <div class="field form-field">
+              <label for="email" class="form-label">Parent's email</label>
+              <input id="email" name="email" type="email" autocomplete="off" aria-describedby="email-msg" class="input">
+              <p id="email-msg" class="message text-xs text-muted">Enter the parent's email address.</p>
+            </div>
+
+            <div class="field form-field">
+              <label for="phone" class="form-label">Parent's phone number</label>
+              <input id="phone" name="parentPhone" type="tel" autocomplete="off" aria-describedby="phone-msg" class="input">
+              <p id="phone-msg" class="message text-xs text-muted">06/07 or +212 6/7, followed by 8 digits.</p>
+            </div>
+
+            <div class="field form-field">
+              <label for="code" class="form-label">Temporary access code</label>
+              <input id="code" name="code" type="password" autocomplete="new-password" aria-describedby="code-msg" class="input">
+              <!-- Strength meter (B2) -->
+              <meter id="code-strength" min="0" max="3" low="1.5" high="2.5" optimum="3" value="0" class="h-1.5 w-full"></meter>
+              <p id="code-msg" class="message text-xs text-muted">8 characters min., 1 uppercase letter, 1 digit, 1 special character.</p>
+            </div>
+
+            <p id="form-success" class="flex items-center gap-2 rounded-lg bg-ok-soft p-3 text-sm font-medium text-ok sm:col-span-2" role="status" hidden>
+              <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+              Student added successfully.
+            </p>
+            <p id="form-error" class="rounded-lg bg-alert-soft p-3 text-sm font-medium text-alert sm:col-span-2" role="alert" hidden></p>
+
+            <button type="submit" class="btn btn-primary sm:col-span-2 sm:justify-self-end">
+              Add the student
+            </button>
+          </form>
+        </details>
+
+
+        <!-- Student list -->
+        <ul id="student-list" class="mt-4 grid gap-2"></ul>
+
+        <div id="no-results" class="mt-4 rounded-xl border border-dashed border-line-strong px-6 py-12 text-center" hidden>
+          <i class="fa-solid fa-user-slash text-xl text-muted" aria-hidden="true"></i>
+          <p class="mt-3 font-medium text-ink">No student matches your search.</p>
+          <p class="mt-1 text-sm text-muted">Check the spelling or choose “All groups”.</p>
+        </div>
+
+      </div>
+    </main>
+
+
+    <!-- ==================== SIDE PANEL: group summary ==================== -->
+    <aside class="border-t border-line bg-card p-4 md:p-8 lg:overflow-y-auto lg:border-t-0 lg:border-l lg:p-6" aria-labelledby="summary-title">
+      <h2 id="summary-title" class="eyebrow">Group summary</h2>
+
+      <!-- Key figures -->
+      <dl class="mt-4 grid grid-cols-3 gap-2">
+        <div class="kpi px-3 py-3">
+          <dt class="kpi-label">Average</dt>
+          <dd id="summary-average" class="kpi-value text-[1.625rem]">—</dd>
+        </div>
+        <div class="kpi px-3 py-3">
+          <dt class="kpi-label">Absences</dt>
+          <dd id="summary-absences" class="kpi-value text-[1.625rem]">0</dd>
+        </div>
+        <div class="kpi border-alert/25 bg-alert-soft px-3 py-3">
+          <dt class="kpi-label text-alert">Alerts</dt>
+          <dd id="summary-alerts" class="kpi-value text-[1.625rem] text-alert">0</dd>
+        </div>
+      </dl>
+
+      <div class="mt-3 flex items-center gap-3 rounded-lg border border-line bg-paper p-3">
+        <span class="grid size-9 shrink-0 place-items-center rounded-md bg-saffron-soft text-saffron-ink">
+          <i class="fa-solid fa-star text-sm" aria-hidden="true"></i>
+        </span>
+        <p class="text-sm">
+          <span class="block text-xs text-muted">Best average</span>
+          <span id="summary-best" class="font-semibold text-ink">—</span>
+        </p>
+      </div>
+
+      <h2 class="eyebrow mt-8">Parents to call</h2>
+
+      <ul id="parents-list" class="mt-3 grid gap-2 text-sm"></ul>
+
+      <p id="no-alerts" class="mt-3 flex items-center gap-2 rounded-lg bg-ok-soft p-3 text-sm font-medium text-ok" hidden>
+        <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+        No students on alert
+      </p>
+    </aside>
+  </div>
+
+
+  <!-- ==================== STUDENT RECORD (B3) ==================== -->
+  <dialog id="record" class="modal" aria-labelledby="record-name">
+    <div class="flex items-start justify-between gap-4 border-b border-line px-6 py-5">
+      <div>
+        <h2 id="record-name" class="font-serif text-2xl font-medium"></h2>
+        <p id="record-group" class="mt-1 text-sm text-muted"></p>
+      </div>
+      <form method="dialog">
+        <button class="btn-icon" aria-label="Close">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </form>
+    </div>
+
+    <div class="px-6 py-5">
+      <h3 class="eyebrow">All grades</h3>
+      <ul id="record-grades" class="mt-3 flex flex-wrap gap-2"></ul>
+    </div>
+  </dialog>
+
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
