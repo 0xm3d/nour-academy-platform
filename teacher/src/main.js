@@ -1,5 +1,5 @@
 
-import './styles.css';
+// styles.css is loaded by the <link> in teacher/index.html
 import { students, groups } from './data.js';
 
 const studentList = document.querySelector('#student-list');
@@ -18,6 +18,8 @@ const formSuccess = document.querySelector('#form-success');
 const formError = document.querySelector('#form-error');
 const codeStrength = document.querySelector('#code-strength');
 const addStudentGroup = document.querySelector('#group');
+const sortSelect = document.querySelector('#sort');
+const recordDialog = document.querySelector('#record');
 const fields = [...studentForm.querySelectorAll('.field')];
 
 const validators = {
@@ -62,11 +64,13 @@ fields.forEach(function (field) {
 function createStudentCard(student) {
 
   const li = document.createElement('li');
-  li.classList.add("rounded-2xl", "border", "border-line", "bg-card", "p-3");
+  li.classList.add("rounded-xl", "border", "p-3", "transition-shadow", "hover:shadow-sm", "md:p-4");
 
-  // Alert at 3 absences
+  // Alert at 3 absences: terracotta card, otherwise a white card
   if (student.absences >= 3) {
-    li.classList.add("border-red-500", "bg-red-100");
+    li.classList.add("alert", "border-alert/40", "bg-alert-soft");
+  } else {
+    li.classList.add("border-line", "bg-card");
   }
 
   const div = document.createElement('div');
@@ -75,11 +79,15 @@ function createStudentCard(student) {
   // Student information button
   const button = document.createElement('button');
   button.type = 'button';
-  button.classList.add("btn-fiche", "flex", "min-h-11", "flex-1", "items-center", "gap-3", "text-left");
+  button.classList.add("btn-fiche", "flex", "min-h-11", "flex-1", "items-center", "gap-3", "rounded-lg", "text-left", "transition-colors", "hover:text-brand");
+  // Opens the student's record (B3)
+  button.dataset.id = student.id;
+  button.dataset.action = 'record';
+  button.setAttribute('aria-label', 'Open the record of ' + student.firstName + ' ' + student.lastName);
 
   // Avatar
   const avatar = document.createElement('span');
-  avatar.classList.add("grid", "size-10", "shrink-0", "place-items-center", "rounded-full", "bg-brand-soft", "text-sm", "font-semibold", "text-brand");
+  avatar.classList.add("grid", "size-10", "shrink-0", "place-items-center", "rounded-full", "bg-brand-soft", "font-serif", "text-base", "font-medium", "text-brand");
   avatar.textContent = student.firstName[0] + student.lastName[0];
 
   // Student information
@@ -87,18 +95,19 @@ function createStudentCard(student) {
   info.classList.add("min-w-0", "flex-1");
 
   const name = document.createElement('span');
-  name.classList.add("block", "truncate", "font-medium");
+  name.classList.add("block", "truncate", "font-semibold", "text-ink");
   name.textContent = student.firstName + ' ' + student.lastName;
 
   const absences = document.createElement('span');
   absences.classList.add("block", "text-sm", "text-muted");
-  absences.textContent = student.absences + ' absence';
+  if (student.absences >= 3) absences.classList.replace("text-muted", "text-alert");
+  absences.textContent = student.absences + (student.absences === 1 ? ' absence' : ' absences');
 
   // Parent warning badge
   if (student.absences >= 3) {
     const badge = document.createElement('span');
-    badge.textContent = 'Prévenir les parents';
-    badge.classList.add("text-xs", "font-semibold", "text-red-600");
+    badge.textContent = 'Notify parents';
+    badge.classList.add("badge", "badge-alert", "mt-1");
 
     info.append(name, absences, badge);
   } else {
@@ -107,16 +116,12 @@ function createStudentCard(student) {
 
   // Calculate average
   const average = document.createElement('span');
-  average.classList.add("font-serif", "text-xl");
+  average.classList.add("shrink-0", "font-serif", "text-xl", "text-ink", "tabular-nums");
 
   if (student.grades.length === 0) {
     average.textContent = '—';
   } else {
-    let total = 0;
-
-    for (let grade of student.grades) {
-      total = total + grade;
-    }
+    const total = student.grades.reduce((sum, grade) => sum + grade, 0);
 
     average.textContent =
       (total / student.grades.length).toFixed(1) + ' / 20';
@@ -131,7 +136,7 @@ function createStudentCard(student) {
   // Absent button
   const absentButton = document.createElement('button');
   absentButton.type = 'button';
-  absentButton.classList.add("btn-absent", "h-11", "rounded-full", "border", "border-line", "px-3", "sm:px-4", "text-sm", "font-medium", "hover:bg-paper");
+  absentButton.classList.add("btn-absent", "btn", "btn-secondary", "btn-sm", "min-h-11", "hover:border-alert", "hover:text-alert");
   absentButton.textContent = 'Absent';
   absentButton.dataset.id = student.id;
   absentButton.dataset.action = 'absent';
@@ -142,23 +147,23 @@ function createStudentCard(student) {
 
   const srOnly = document.createElement('span');
   srOnly.classList.add("sr-only");
-  srOnly.textContent = 'Note sur 20';
+  srOnly.textContent = 'Grade out of 20';
 
   const gradeInput = document.createElement('input');
   gradeInput.type = 'number';
   gradeInput.min = '0';
   gradeInput.max = '20';
   gradeInput.step = '0.5';
-  gradeInput.placeholder = 'Note';
-  gradeInput.classList.add("h-11", "w-full", "rounded-full", "border", "border-line", "bg-paper", "px-4", "text-sm", "lg:w-24");
+  gradeInput.placeholder = 'Grade';
+  gradeInput.classList.add("input", "text-sm", "lg:w-24");
 
   label.append(srOnly, gradeInput);
 
   // Add grade button
   const noteButton = document.createElement('button');
   noteButton.type = 'button';
-  noteButton.classList.add("btn-note", "h-11", "rounded-full", "bg-ink", "px-3", "sm:px-4", "text-sm", "font-medium", "text-white", "hover:bg-brand");
-  noteButton.textContent = 'Ajouter la note';
+  noteButton.classList.add("btn-note", "btn", "btn-primary", "btn-sm", "min-h-11");
+  noteButton.textContent = 'Add grade';
   noteButton.dataset.id = student.id;
   noteButton.dataset.action = 'grade';
 
@@ -169,8 +174,8 @@ function createStudentCard(student) {
 
   // Grade error message
   const message = document.createElement('p');
-  message.classList.add("message", "mt-2", "text-xs", "text-alert");
-  message.textContent = 'La note doit être un nombre entre 0 et 20.';
+  message.classList.add("message", "mt-2", "text-xs", "font-medium", "text-alert");
+  message.textContent = 'The grade must be a number between 0 and 20.';
   message.hidden = true;
 
   li.append(message);
@@ -304,10 +309,7 @@ function updateGroupSummary() {
 
   summaryAverage.textContent = grades.count === 0
     ? '—'
-    : (grades.total / grades.count).toLocaleString('fr-FR', {
-      minimumFractionDigits: 1,
-      maximumFractionDigits: 1
-    });
+    : (grades.total / grades.count).toFixed(1);
   summaryAbsences.textContent = totalAbsences;
   summaryAlerts.textContent = studentsOnAlert.length;
 
@@ -321,15 +323,12 @@ function updateGroupSummary() {
 
   summaryBest.textContent = bestStudent
     ? bestStudent.student.firstName + ' ' + bestStudent.student.lastName +
-      ' · ' + bestStudent.average.toLocaleString('fr-FR', {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1
-      }) + ' / 20'
+      ' · ' + bestStudent.average.toFixed(1) + ' / 20'
     : '—';
 
   parentsList.replaceChildren(...studentsOnAlert.map(function (student) {
     const item = document.createElement('li');
-    item.className = 'rounded-xl bg-card p-3 ring-1 ring-line';
+    item.className = 'flex items-center gap-2 rounded-lg border border-alert/25 bg-alert-soft p-3 text-ink';
     item.textContent = student.firstName + ' ' + student.lastName +
       ' — ' + student.parentPhone;
     return item;
@@ -400,6 +399,52 @@ studentForm.addEventListener('submit', function (event) {
 });
 
 
+// Average of one student, or -1 when there is no grade yet (sorted last)
+function getAverage(student) {
+  if (student.grades.length === 0) return -1;
+  return student.grades.reduce((sum, grade) => sum + grade, 0) / student.grades.length;
+}
+
+// Sort a copy of the list by name or by average (best first)
+function sortStudents(list) {
+  const copy = [...list];
+
+  if (sortSelect.value === 'name') {
+    copy.sort((a, b) => (a.lastName + ' ' + a.firstName).localeCompare(b.lastName + ' ' + b.firstName));
+  } else if (sortSelect.value === 'average') {
+    copy.sort((a, b) => getAverage(b) - getAverage(a));
+  }
+
+  return copy;
+}
+
+// Fill and open the student's record (B3)
+function openRecord(student) {
+  const group = groups.find(group => group.id === student.groupId);
+
+  document.querySelector('#record-name').textContent = student.firstName + ' ' + student.lastName;
+  document.querySelector('#record-group').textContent = group
+    ? group.name + ' · ' + group.course + ' · ' + student.absences + (student.absences === 1 ? ' absence' : ' absences')
+    : '';
+
+  const gradeItems = student.grades.map(function (grade) {
+    const item = document.createElement('li');
+    item.className = 'rounded-md border border-line bg-paper px-3 py-1.5 font-serif text-lg text-ink tabular-nums';
+    item.textContent = grade + ' / 20';
+    return item;
+  });
+
+  if (gradeItems.length === 0) {
+    const empty = document.createElement('li');
+    empty.className = 'text-sm text-muted';
+    empty.textContent = 'No grade yet.';
+    gradeItems.push(empty);
+  }
+
+  document.querySelector('#record-grades').replaceChildren(...gradeItems);
+  recordDialog.showModal();
+}
+
 // Display and filter students
 function displayStudents() {
 
@@ -420,7 +465,9 @@ function displayStudents() {
 
   studentList.textContent = '';
 
-  const cards = filteredStudent.map(createStudentCard);
+  // Sort a copy of the list (B1), the original order stays in "students"
+  const sortedStudents = sortStudents(filteredStudent);
+  const cards = sortedStudents.map(createStudentCard);
 
   studentList.append(...cards);
 
@@ -453,6 +500,12 @@ studentList.addEventListener('click', function (event) {
   }
 
   const li = button.closest('li');
+
+  // Open the record: nothing changes in the list
+  if (button.dataset.action === 'record') {
+    openRecord(student);
+    return;
+  }
 
   // Absent
   if (button.dataset.action === 'absent') {
@@ -492,6 +545,16 @@ search.addEventListener('input', displayStudents);
 
 // Group filter event
 groupFilter.addEventListener('change', displayStudents);
+
+// Sort event (B1)
+sortSelect.addEventListener('change', displayStudents);
+
+// Close the record with a click outside the box (Esc and the ✕ button work natively)
+recordDialog.addEventListener('click', function (event) {
+  if (event.target === recordDialog) {
+    recordDialog.close();
+  }
+});
 
 
 // Initial display
