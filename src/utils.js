@@ -34,3 +34,13 @@ export function calculateStatistics(registrations, courses) {
         occupancy
     };
 }
+// Make text safe before putting it inside innerHTML
+// (a name like "<b>Ali</b>" is shown as text, not run as HTML).
+export function escapeHTML(value) {
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#39;");
+}
