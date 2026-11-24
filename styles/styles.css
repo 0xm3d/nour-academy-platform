@@ -1,36 +1,65 @@
 @import "tailwindcss";
 @import "@fortawesome/fontawesome-free/css/all.min.css";
+@import "./theme.css";
 
-:root {
-/* Colors — Color Hunt Palette */
---color-primary: #030164;
---color-secondary: #363199;
---color-muted: #2D7495;
---color-background: #F8F8FC;
---color-surface: #FFFFFF;
---color-soft: #E8E085;
+/* The teacher area has its own entry stylesheet (same design system). */
+@source not "../teacher";
 
-/* Spacing */
---space-1: 4px;
---space-2: 8px;
---space-3: 16px;
---space-4: 24px;
---space-5: 48px;
+/* ---------- Parent portal ---------- */
 
-/* Typography */
---font-family: 'Inter', sans-serif;
+/* Hero photo in an arch frame, echoing the brand mark */
+.arch {
+  border-radius: 999px 999px var(--radius-xl) var(--radius-xl);
+}
 
-/* Font sizes */
---text-xs: 12px;
---text-sm: 14px;
---text-base: 16px;
---text-lg: 24px;
---text-xl: 40px;
+/* Course cards appear one after the other when the catalogue is drawn */
+#catalog > article {
+  animation: var(--animate-rise);
+  animation-duration: 0.35s;
+}
+#catalog > article:nth-child(2) { animation-delay: 40ms; }
+#catalog > article:nth-child(3) { animation-delay: 80ms; }
+#catalog > article:nth-child(4) { animation-delay: 120ms; }
+#catalog > article:nth-child(n + 5) { animation-delay: 160ms; }
 
-/* Font weights */
---font-regular: 400;
---font-semibold: 600;
+/* Smooth anchor scrolling, with room for the sticky header */
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
 
-/* Line height */
---line-height: 1.4;
+/* ---------- Back office ---------- */
+
+/* Active item in the sidebar: dashboard.js toggles aria-current */
+.side-link {
+  position: relative;
+}
+@media (min-width: 1024px) {
+.side-link[aria-current="page"]::before {
+  content: "";
+  position: absolute;
+  left: -12px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--color-saffron);
+}
+}
+
+#selection-error:empty {
+  display: none;
+}
+
+/* Unlayered so it wins over the hover utility on the active item */
+.side-link[aria-current="page"]:hover {
+  background: var(--color-brand-strong);
+}
+
+/* Empty state under a table: shown only when the table body is empty (no JS needed) */
+.empty-state {
+  display: none;
+}
+.table-wrap:has(tbody:empty) .empty-state {
+  display: block;
 }

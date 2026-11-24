@@ -1,26 +1,35 @@
-@import "tailwindcss";
+/* Only scan the teacher area: the portal and back office have their own entry stylesheet. */
+@import "tailwindcss" source("..");
+@import "@fortawesome/fontawesome-free/css/all.min.css";
 
- @theme {
-      --font-sans: "Inter", system-ui, sans-serif;
-      --font-serif: "Newsreader", Georgia, serif;
+/* The Nour Academy design system, shared with the portal and the back office */
+@import "../../styles/theme.css";
 
-      --color-paper: #f7f5f0;       /* fond de page        */
-      --color-card: #ffffff;        /* cartes              */
-      --color-line: #e4e0d6;        /* bordures            */
-      --color-ink: #1f1e1b;         /* texte principal     */
-      --color-muted: #6b6860;       /* texte secondaire    */
-      --color-brand: #1f6f5c;       /* couleur Nour        */
-      --color-brand-soft: #e3efe9;
-      --color-alert: #b4472e;       /* erreur / alerte     */
-      --color-alert-soft: #fbece6;
-      --color-ok: #2f7d4f;          /* succès              */
-    }
+/* Show field feedback when JavaScript marks a value valid or invalid. */
+.field.error input,
+.field.error select { border-color: var(--color-alert); }
+.field.error .message { color: var(--color-alert); }
+.field.valid input,
+.field.valid select { border-color: var(--color-ok); }
+.field.valid .message { color: var(--color-ok); }
 
-    /* Show field feedback when JavaScript marks a value valid or invalid. */
-    .field.error input,
-    .field.error select { border-color: var(--color-alert); }
-    .field.error .message { color: var(--color-alert); }
-    .field.valid input,
-    .field.valid select { border-color: var(--color-ok); }
-    .field.valid .message { color: var(--color-ok); }
-    .alerte         { border-color: var(--color-alert); background-color: var(--color-alert-soft); }
+/* Student cards appear one after the other when the list is drawn */
+#student-list > li {
+  animation: var(--animate-rise);
+  animation-duration: 0.3s;
+}
+#student-list > li:nth-child(2) { animation-delay: 30ms; }
+#student-list > li:nth-child(3) { animation-delay: 60ms; }
+#student-list > li:nth-child(4) { animation-delay: 90ms; }
+#student-list > li:nth-child(n + 5) { animation-delay: 120ms; }
+
+/* Access code strength meter */
+#code-strength {
+  appearance: none;
+  border-radius: 999px;
+  background: var(--color-paper-2);
+}
+#code-strength::-webkit-meter-bar { background: var(--color-paper-2); border: 0; border-radius: 999px; }
+#code-strength::-webkit-meter-optimum-value { background: var(--color-ok); border-radius: 999px; }
+#code-strength::-webkit-meter-suboptimum-value { background: var(--color-saffron); border-radius: 999px; }
+#code-strength::-webkit-meter-even-less-good-value { background: var(--color-alert); border-radius: 999px; }
