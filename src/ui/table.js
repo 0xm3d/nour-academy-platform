@@ -1,9 +1,12 @@
+import { escapeHTML } from "../utils.js";
+
 const body = document.getElementById("registrations-body");
 
+// One badge style per status (defined in styles/theme.css)
 const statusClasses = {
-    Paid: "bg-green-100 text-green-700",
-    Validated: "bg-blue-100 text-blue-700",
-    Pending: "bg-yellow-100 text-yellow-700"
+    Paid: "badge badge-paid",
+    Validated: "badge badge-validated",
+    Pending: "badge badge-pending"
 };
 
 // Draw registration rows in the dashboard table.
@@ -14,27 +17,27 @@ export function renderTable(registrations, showActions = true, targetBody = body
     }
 
     targetBody.innerHTML = registrations.map((registration) => `
-        <tr class="border-b border-[var(--color-soft)]">
-            <td class="px-4 py-3 text-sm font-semibold">${registration.dossier}</td>
-            <td class="px-4 py-3 text-sm">${registration.student}</td>
-            <td class="px-4 py-3 text-sm">${registration.level}</td>
-            <td class="px-4 py-3 text-sm">${registration.course}</td>
-            <td class="px-4 py-3 text-sm">${registration.phone}</td>
-            <td class="px-4 py-3 text-sm">
-                <span class="rounded-full px-3 py-1 text-xs ${statusClasses[registration.status] || ""}">
-                    ${registration.status}
+        <tr>
+            <td class="font-medium whitespace-nowrap text-muted tabular-nums">${escapeHTML(registration.dossier)}</td>
+            <td class="font-semibold whitespace-nowrap text-ink">${escapeHTML(registration.student)}</td>
+            <td class="whitespace-nowrap">${escapeHTML(registration.level)}</td>
+            <td class="min-w-52">${escapeHTML(registration.course)}</td>
+            <td class="whitespace-nowrap tabular-nums">${escapeHTML(registration.phone)}</td>
+            <td>
+                <span class="${statusClasses[registration.status] || "badge badge-neutral"}">
+                    ${escapeHTML(registration.status)}
                 </span>
             </td>
-            <td class="px-4 py-3 text-sm">${registration.date}</td>
-            ${showActions ? `<td class="px-4 py-3 text-center align-middle">
-                <div class="flex items-center justify-center gap-[10px]">
-                    <button type="button" data-action="edit" data-id="${registration.id}"
-                        aria-label="Edit ${registration.student}">
-                        <i class="fa-solid fa-pen-to-square text-blue-600 cursor-pointer" aria-hidden="true"></i>
+            <td class="whitespace-nowrap tabular-nums">${escapeHTML(registration.date)}</td>
+            ${showActions ? `<td class="text-right">
+                <div class="flex items-center justify-end gap-1">
+                    <button type="button" data-action="edit" data-id="${registration.id}" class="btn-icon"
+                        aria-label="Edit ${escapeHTML(registration.student)}" title="Edit">
+                        <i class="fa-solid fa-pen" aria-hidden="true"></i>
                     </button>
-                    <button type="button" data-action="delete" data-id="${registration.id}"
-                        aria-label="Delete ${registration.student}">
-                        <i class="fa-solid fa-trash-can text-red-600 cursor-pointer" aria-hidden="true"></i>
+                    <button type="button" data-action="delete" data-id="${registration.id}" class="btn-icon is-danger"
+                        aria-label="Delete ${escapeHTML(registration.student)}" title="Delete">
+                        <i class="fa-regular fa-trash-can" aria-hidden="true"></i>
                     </button>
                 </div>
             </td>` : ""}

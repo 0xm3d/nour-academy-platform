@@ -3,67 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nour Academy | Statistics</title>
+    <title>Nour Academy · Statistics</title>
+    <link rel="icon" href="images/logo.svg" type="image/svg+xml">
     <script type="module" src="src/statistics.js"></script>
 </head>
-<body class="bg-[var(--color-background)] font-[var(--font-family)]">
-    <main class="p-6">
-        <header class="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-[var(--color-soft)] pb-4">
-            <h1 class="text-2xl font-bold text-[var(--color-primary)]">Nour Academy</h1>
-            <nav aria-label="Back office" class="flex gap-5 text-sm text-[var(--color-primary)]">
-                <a href="dashboard.html">Dashboard</a>
-                <a href="statistics.html" aria-current="page" class="font-semibold underline">Statistics</a>
-                <a href="index.html">Parent portal</a>
+<body>
+    <header class="border-b border-line bg-card">
+        <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-5 py-4 md:px-8">
+            <a href="dashboard.html" class="wordmark">
+                <img src="images/logo.svg" alt="">
+                <span>Nour <small>Back office</small></span>
+            </a>
+            <nav aria-label="Back office" class="flex flex-wrap gap-1 text-sm">
+                <a href="dashboard.html" class="flex min-h-11 items-center rounded-md px-3 text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink">Registrations</a>
+                <a href="statistics.html" aria-current="page" class="flex min-h-11 items-center rounded-md bg-brand px-3 font-medium text-white">Statistics</a>
+                <a href="index.html" class="flex min-h-11 items-center rounded-md px-3 text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink">Parent portal</a>
+                <a href="teacher/index.html" class="flex min-h-11 items-center rounded-md px-3 text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink">Teacher area</a>
             </nav>
-        </header>
+        </div>
+    </header>
 
+    <main class="mx-auto max-w-6xl animate-rise px-5 py-8 md:px-8">
         <section aria-labelledby="statistics-heading">
-            <h2 id="statistics-heading" class="mb-4 text-2xl font-bold">Statistics</h2>
+            <p class="eyebrow">Management</p>
+            <h1 id="statistics-heading" class="mt-2 font-serif text-4xl font-medium tracking-tight">Statistics</h1>
 
-            <div class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
-                <article class="rounded-xl border border-[var(--color-soft)] bg-white p-4">
-                    <h3 class="text-sm text-gray-600">Registrations</h3>
-                    <p id="stat-total" class="mt-2 text-2xl font-bold">0</p>
+            <div class="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+                <article class="kpi border-brand bg-brand sm:col-span-2 xl:col-span-1">
+                    <h2 class="kpi-label text-white/75">Revenue collected (Paid)</h2>
+                    <p id="stat-revenue" class="kpi-value text-white">0 MAD</p>
                 </article>
-                <article class="rounded-xl border border-[var(--color-soft)] bg-white p-4">
-                    <h3 class="text-sm text-gray-600">Pending</h3>
-                    <p id="stat-pending" class="mt-2 text-2xl font-bold">0</p>
+                <article class="kpi">
+                    <h2 class="kpi-label">Registrations</h2>
+                    <p id="stat-total" class="kpi-value">0</p>
                 </article>
-                <article class="rounded-xl border border-[var(--color-soft)] bg-white p-4">
-                    <h3 class="text-sm text-gray-600">Validated</h3>
-                    <p id="stat-validated" class="mt-2 text-2xl font-bold">0</p>
+                <article class="kpi">
+                    <h2 class="kpi-label"><span class="badge badge-pending">Pending</span></h2>
+                    <p id="stat-pending" class="kpi-value">0</p>
                 </article>
-                <article class="rounded-xl border border-[var(--color-soft)] bg-white p-4">
-                    <h3 class="text-sm text-gray-600">Paid</h3>
-                    <p id="stat-paid" class="mt-2 text-2xl font-bold">0</p>
+                <article class="kpi">
+                    <h2 class="kpi-label"><span class="badge badge-validated">Validated</span></h2>
+                    <p id="stat-validated" class="kpi-value">0</p>
                 </article>
-                <article class="col-span-2 rounded-xl border border-[var(--color-soft)] bg-white p-4 md:col-span-1">
-                    <h3 class="text-sm text-gray-600">Monthly revenue collected</h3>
-                    <p id="stat-revenue" class="mt-2 text-2xl font-bold">0 MAD</p>
+                <article class="kpi">
+                    <h2 class="kpi-label"><span class="badge badge-paid">Paid</span></h2>
+                    <p id="stat-paid" class="kpi-value">0</p>
                 </article>
             </div>
 
-            <div class="mt-4 rounded-xl border border-[var(--color-soft)] bg-white p-4">
-                <h3 class="mb-2 font-semibold">Occupancy per course (maximum 15)</h3>
-                <ul id="occupancy-list" class="text-sm"></ul>
+            <div class="mt-4 rounded-xl border border-line bg-card p-5 shadow-xs md:p-6">
+                <div class="flex flex-wrap items-baseline justify-between gap-2">
+                    <h2 class="font-serif text-2xl font-medium">Occupancy per course</h2>
+                    <p class="text-sm text-muted">15 students maximum per group</p>
+                </div>
+                <ul id="occupancy-list" class="mt-3 grid gap-x-10 md:grid-cols-2"></ul>
             </div>
         </section>
 
-        <section aria-labelledby="registrations-heading" class="mt-8">
-            <h2 id="registrations-heading" class="mb-4 text-2xl font-bold">Registrations</h2>
-            <p id="registrations-count" class="mb-4 text-sm text-gray-500">Loading registrations...</p>
-
-            <div class="overflow-x-auto rounded-xl border border-[var(--color-soft)] bg-white">
-                <table class="w-full min-w-[768px] text-left">
-                    <thead class="bg-[var(--color-soft)] text-xs uppercase">
+        <section aria-labelledby="registrations-heading" class="table-wrap mt-4 overflow-hidden rounded-xl border border-line bg-card shadow-xs">
+            <div class="flex items-center justify-between border-b border-line px-4 py-3">
+                <h2 id="registrations-heading" class="text-sm font-semibold text-ink">All registrations</h2>
+                <p id="registrations-count" class="text-sm text-muted">Loading registrations...</p>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="data-table min-w-[720px]">
+                    <thead>
                         <tr>
-                            <th class="px-4 py-3">File no.</th>
-                            <th class="px-4 py-3">Student</th>
-                            <th class="px-4 py-3">Level</th>
-                            <th class="px-4 py-3">Course</th>
-                            <th class="px-4 py-3">Parent phone</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3">Date</th>
+                            <th scope="col">File no.</th>
+                            <th scope="col">Student</th>
+                            <th scope="col">Level</th>
+                            <th scope="col">Course</th>
+                            <th scope="col">Parent phone</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Date</th>
                         </tr>
                     </thead>
                     <tbody id="registrations-body"></tbody>

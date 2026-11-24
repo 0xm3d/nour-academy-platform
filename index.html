@@ -4,362 +4,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nour Academy</title>
+    <title>Nour Academy · Tutoring and language centres in Nador</title>
+    <meta name="description" content="Find the right tutoring course in Nador and send a complete enrolment file from your phone.">
+    <link rel="icon" href="images/logo.svg" type="image/svg+xml">
     <script type="module" src="/src/main.js"></script>
 </head>
 
-<body class="bg-[var(--color-background)] font-[var(--font-family)]">
+<body>
 
     <!-- Header -->
-    <header class="flex items-center justify-between border-b border-[var(--color-soft)] px-6 py-4 md:px-[60px]">
-        <a href="#">
-            <img src="images/logo.svg" alt="Nour Academy" class="h-7">
-        </a>
+    <header class="sticky top-0 z-30 border-b border-line bg-paper/90 backdrop-blur">
+        <div class="mx-auto flex h-[72px] max-w-6xl items-center justify-between gap-4 px-5 md:px-8">
+            <a href="#home" class="wordmark" aria-label="Nour Academy, back to top">
+                <img src="images/logo.svg" alt="">
+                <span>Nour <small>Academy</small></span>
+            </a>
 
-        <nav class="flex gap-6 text-xs text-[var(--color-primary)]">
-            <a href="#home">Home</a>
-            <a href="#courses">Courses</a>
-            <a href="#centers">Centers</a>
-            <a href="dashboard.html">Dashboard</a>
-        </nav>
+            <nav aria-label="Main" class="hidden items-center gap-1 text-sm md:flex">
+                <a href="#courses" class="rounded-md px-3 py-2 text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink">Courses</a>
+                <a href="#enrollment" class="rounded-md px-3 py-2 text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink">Enrolment</a>
+                <a href="#centers" class="rounded-md px-3 py-2 text-ink-soft transition-colors hover:bg-paper-2 hover:text-ink">Centres</a>
+                <a href="dashboard.html" class="rounded-md px-3 py-2 text-muted transition-colors hover:bg-paper-2 hover:text-ink">Dashboard</a>
+            </nav>
 
-        <a href="#courses" class="rounded-md bg-[var(--color-primary)] px-4 py-3 text-xs text-white">
-            Find a course
-        </a>
+            <a href="#courses" class="btn btn-primary btn-sm">Find a course</a>
+        </div>
     </header>
 
     <main>
-        <!-- Hero -->
-        <section id="home" class="grid min-h-[85vh] items-center gap-[10px] px-6 py-10 md:grid-cols-2 md:px-[60px]">
-            <div>
-                <p class="mb-6 text-xs font-semibold uppercase text-[var(--color-primary)]">
-                    • Growing together, in Nador
-                </p>
 
-                <h1 class="mb-6 text-4xl font-semibold text-[var(--color-primary)] md:text-[40px]">
-                    The right course to succeed tomorrow
+        <!-- Hero -->
+        <section id="home" class="mx-auto grid max-w-6xl items-center gap-10 px-5 pt-10 pb-16 md:grid-cols-[1.1fr_0.9fr] md:gap-14 md:px-8 md:pt-16 md:pb-24">
+            <div class="animate-rise">
+                <p class="eyebrow">Tutoring &amp; language centres · Nador</p>
+
+                <h1 class="mt-5 font-serif text-[2.5rem] leading-[1.05] font-medium tracking-tight md:text-[3.75rem]">
+                    The right course, <em class="text-brand">and the confidence that comes with it.</em>
                 </h1>
 
-                <p class="mb-6 text-sm leading-6 text-[var(--color-muted)]">
-                    Small groups, attentive teachers and the joy of making progress.
-                    From middle school to high school, let’s find the course that will make the difference.
+                <p class="mt-6 max-w-xl text-lg leading-relaxed">
+                    Small groups, attentive teachers and three centres close to home.
+                    From primary school to the Baccalaureate, find the course that makes the difference,
+                    then enrol in a few minutes from your phone.
                 </p>
 
-                <a href="#courses"
-                    class="inline-block rounded-md bg-[var(--color-primary)] px-4 py-3 text-sm text-white">
-                    Discover the courses
-                </a>
+                <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-4">
+                    <a href="#courses" class="btn btn-primary">
+                        Discover the courses
+                        <i class="fa-solid fa-arrow-down text-xs" aria-hidden="true"></i>
+                    </a>
+                    <a href="#enrollment" class="link text-sm">How enrolment works</a>
+                </div>
 
-                <p class="mt-6 mb-0 text-xs text-[var(--color-muted)]">
-                    No registration fees · Payment at the center
-                </p>
+                <dl class="mt-12 grid max-w-lg grid-cols-3 border-t border-line pt-6">
+                    <div class="flex flex-col">
+                        <dt class="text-xs text-muted">Students each year</dt>
+                        <dd class="order-first font-serif text-3xl text-ink">1,400</dd>
+                    </div>
+                    <div class="flex flex-col border-l border-line pl-5">
+                        <dt class="text-xs text-muted">Centres in Nador</dt>
+                        <dd class="order-first font-serif text-3xl text-ink">3</dd>
+                    </div>
+                    <div class="flex flex-col border-l border-line pl-5">
+                        <dt class="text-xs text-muted">Students per group, max.</dt>
+                        <dd class="order-first font-serif text-3xl text-ink">15</dd>
+                    </div>
+                </dl>
             </div>
 
-            <img src="images/hero.png" alt="Student studying" class="w-full rounded-xl">
-        </section>
-
-        <!-- Info strip -->
-        <section
-            class="flex flex-wrap items-center justify-around gap-4 bg-[var(--color-soft)] px-6 py-4 text-xs text-[var(--color-primary)]">
-            <p class="flex items-center gap-2">
-                <i class="fa-solid fa-users" aria-hidden="true"></i>
-                Small groups, big progress
-            </p>
-
-            <p class="flex items-center gap-2">
-                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                3 centers near you
-            </p>
-
-            <p class="flex items-center gap-2">
-                <i class="fa-solid fa-seedling" aria-hidden="true"></i>
-                Follow-up for every student
-            </p>
+            <figure class="relative mx-auto w-full max-w-md animate-rise [animation-delay:120ms]">
+                <!-- Outline arch behind the photo, echoing the logo -->
+                <div class="absolute inset-0 translate-x-4 translate-y-4 rounded-2xl border border-brand/25 md:rounded-t-full md:rounded-b-2xl" aria-hidden="true"></div>
+                <div class="relative overflow-hidden rounded-2xl bg-paper-2 shadow-md md:rounded-t-full md:rounded-b-2xl">
+                    <img src="images/hero.jpg" alt="A tutor working through a lesson with a student at a table covered with books and notes"
+                        width="960" height="1200" fetchpriority="high"
+                        class="aspect-[4/3] w-full object-cover md:aspect-[4/5]">
+                </div>
+                <figcaption class="absolute -bottom-5 left-4 flex items-center gap-3 rounded-lg border border-line bg-card px-4 py-3 shadow-md md:-left-8">
+                    <span class="grid size-9 place-items-center rounded-md bg-saffron-soft text-saffron-ink">
+                        <i class="fa-solid fa-user-group text-sm" aria-hidden="true"></i>
+                    </span>
+                    <span class="text-sm leading-tight">
+                        <strong class="block text-ink">Small groups</strong>
+                        <span class="text-muted">No registration fees · Payment at the centre</span>
+                    </span>
+                </figcaption>
+            </figure>
         </section>
 
         <!-- Courses -->
-        <section id="courses" class="px-6 py-10 md:px-[60px]">
+        <section id="courses" class="border-t border-line bg-card">
+            <div class="mx-auto max-w-6xl px-5 py-16 md:px-8 md:py-24">
 
-            <p class="mb-3 text-xs font-semibold uppercase text-[var(--color-primary)]">
-                01 / Find your path
-            </p>
+                <div class="grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+                    <div>
+                        <p class="eyebrow">01 · Find your path</p>
+                        <h2 class="mt-3 font-serif text-4xl font-medium tracking-tight md:text-5xl">A course for every ambition.</h2>
+                    </div>
+                    <p class="max-w-sm text-muted">
+                        Choose one or more courses. Your selection and its monthly total follow you down to the enrolment form.
+                    </p>
+                </div>
 
-            <h2 class="mb-2 text-3xl font-semibold text-[var(--color-primary)]">
-                A course for every ambition.
-            </h2>
+                <!-- Filters -->
+                <div class="mt-10 grid gap-3 rounded-xl border border-line bg-paper p-3 md:grid-cols-[1fr_200px_200px]">
+                    <div class="form-field">
+                        <label for="search" class="sr-only">Search for a course</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass pointer-events-none absolute top-1/2 left-3.5 -translate-y-1/2 text-sm text-muted" aria-hidden="true"></i>
+                            <input id="search" type="search" placeholder="Search a course, e.g. mathematics"
+                                class="input pl-10">
+                        </div>
+                    </div>
 
-            <p class="mb-6 text-sm text-[var(--color-muted)]">
-                Choose your tutoring courses. We’ll support you with the next steps.
-            </p>
+                    <div class="form-field">
+                        <label for="level" class="sr-only">School level</label>
+                        <select id="level" class="input">
+                            <option value="">All levels</option>
+                            <option value="Primary">Primary</option>
+                            <option value="Middle School">Middle School</option>
+                            <option value="High School">High School</option>
+                        </select>
+                    </div>
 
-            <!-- Filters -->
-            <div class="grid grid-cols-1 items-end gap-3 md:grid-cols-[1fr_auto_auto]">
-
-                <div>
-                    <label for="search" class="mb-2 block text-xs font-medium text-[var(--color-primary)]">
-                        Search for a course
-                    </label>
-                    <div
-                        class="flex items-center gap-3 rounded-lg border border-[var(--color-secondary)] bg-[var(--color-surface)] px-3 py-3">
-                        <i class="fa-solid fa-magnifying-glass text-[var(--color-muted)]" aria-hidden="true"></i>
-                        <input id="search" type="search" placeholder="E.g.: mathematics…"
-                            class="w-full bg-transparent text-sm text-[var(--color-primary)] outline-none placeholder:text-[var(--color-muted)]">
+                    <div class="form-field">
+                        <label for="subject" class="sr-only">Subject</label>
+                        <select id="subject" class="input">
+                            <option value="">All subjects</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="French">French</option>
+                            <option value="Physics-Chemistry">Physics-Chemistry</option>
+                            <option value="English">English</option>
+                            <option value="Arabic">Arabic</option>
+                        </select>
                     </div>
                 </div>
 
-                <div>
-                    <label for="level" class="mb-2 block text-xs font-medium text-[var(--color-primary)]">
-                        School level
-                    </label>
-                    <select id="level"
-                        class="w-full rounded-lg border border-[var(--color-soft)] bg-[var(--color-surface)] px-3 py-3 text-sm text-[var(--color-muted)] outline-none focus:border-[var(--color-secondary)]">
-                        <option value="">All levels</option>
-                        <option value="Primary">Primary</option>
-                        <option value="Middle School">Middle School</option>
-                        <option value="High School">High School</option>
-                    </select>
-                </div>
+                <!-- Courses + selection -->
+                <div class="mt-8 grid items-start gap-8 lg:grid-cols-[1fr_320px]">
 
-                <div>
-                    <label for="subject" class="mb-2 block text-xs font-medium text-[var(--color-primary)]">
-                        Subject
-                    </label>
-                    <select id="subject"
-                        class="w-full rounded-lg border border-[var(--color-soft)] bg-[var(--color-surface)] px-3 py-3 text-sm text-[var(--color-muted)] outline-none focus:border-[var(--color-secondary)]">
-                        <option value="">All subjects</option>
-                        <option value="Mathematics">Mathematics</option>
-                        <option value="French">French</option>
-                        <option value="Physics-Chemistry">Physics-Chemistry</option>
-                        <option value="English">English</option>
-                        <option value="Arabic">Arabic</option>
-                    </select>
-                </div>
+                    <div>
+                        <p id="counter" class="text-sm font-medium text-muted" aria-live="polite"></p>
 
-            </div>
+                        <div id="catalog" class="mt-4 grid gap-4 sm:grid-cols-2"></div>
 
-            <!-- Courses + cart -->
-            <div class="mt-6 grid gap-6 lg:grid-cols-[1fr_320px]">
-
-                <!-- Courses -->
-                <div>
-                    <p id="counter" class="text-sm text-[var(--color-muted)]"></p>
-
-                    <div id="catalog" class="mt-4 grid gap-4 md:grid-cols-2"></div>
-
-                    <p id="no-results" class="mt-4 hidden text-sm text-[var(--color-muted)]">
-                        No course matches your search.
-                    </p>
-                </div>
-
-                <!-- Cart -->
-                <aside class="h-fit rounded-2xl border border-[var(--color-primary)] bg-[var(--color-accent)] p-6">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-[16px] font-semibold text-[var(--color-primary)]">My selection</h3>
-                        <span id="cart-count"
-                            class="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--color-primary)] text-xs text-white">0</span>
+                        <div id="no-results" class="mt-4 hidden rounded-xl border border-dashed border-line-strong px-6 py-12 text-center">
+                            <i class="fa-solid fa-magnifying-glass text-xl text-muted" aria-hidden="true"></i>
+                            <p class="mt-3 font-medium text-ink">No course matches your search.</p>
+                            <p class="mt-1 text-sm text-muted">Try another level or subject, or a shorter keyword.</p>
+                        </div>
                     </div>
 
-                    <p id="cart-empty" class="mt-4 text-sm text-[var(--color-muted)]">
-                        No course selected.
-                    </p>
+                    <!-- Selection -->
+                    <aside aria-labelledby="cart-title" class="rounded-xl border border-line bg-paper p-6 lg:sticky lg:top-24">
+                        <div class="flex items-center justify-between">
+                            <h3 id="cart-title" class="font-serif text-2xl font-medium">My selection</h3>
+                            <span id="cart-count"
+                                class="grid size-7 place-items-center rounded-full bg-brand text-xs font-semibold text-white">0</span>
+                        </div>
 
-                    <div id="cart-list" class="mt-4"></div>
+                        <p id="cart-empty" class="mt-4 text-sm text-muted">
+                            No course selected yet. Use “Add to my selection” on a course.
+                        </p>
 
-                    <p class="mt-6 text-[16px] text-[var(--color-primary)]">
-                        Total: <span id="cart-total">0</span> MAD / month
-                    </p>
+                        <div id="cart-list" class="mt-4"></div>
 
-                    <button id="cart-submit" disabled
-                        class="mt-6 block w-full rounded-lg bg-[var(--color-primary)] px-4 py-3 text-center text-sm text-white disabled:opacity-50">
-                        Go to enrollment
-                    </button>
+                        <div class="mt-4 flex items-baseline justify-between border-t border-line pt-4">
+                            <span class="text-sm text-muted">Total per month</span>
+                            <span class="font-serif text-2xl text-ink"><span id="cart-total">0</span> MAD</span>
+                        </div>
 
-                    <p class="mt-4 text-xs text-[var(--color-muted)]">
-                        No online payment. Our team will confirm your place.
-                    </p>
-                </aside>
+                        <button id="cart-submit" type="button" disabled class="btn btn-primary mt-5 w-full">
+                            Go to enrolment
+                        </button>
 
+                        <p class="mt-4 flex gap-2 text-xs leading-relaxed text-muted">
+                            <i class="fa-solid fa-circle-info mt-0.5" aria-hidden="true"></i>
+                            No online payment. Our team will call you to confirm your place.
+                        </p>
+                    </aside>
+
+                </div>
             </div>
-
         </section>
 
-        <!-- Enrollment form -->
-        <section id="enrollment" class="p-[24px]">
-            <span id="contact"></span>
-            <h2 class="text-[24px] font-semibold mb-[16px] text-center">Enrollment</h2>
-            <div id="registration-summary"
-                class="hidden max-w-[448px] mx-auto mb-6 rounded-lg border border-green-600 bg-white p-4 text-green-700">
-                <h3 class="font-semibold">Enrollment confirmed!</h3>
-                <p id="registration-summary-text" class="mt-2 text-sm"></p>
+        <!-- Enrolment -->
+        <section id="enrollment" class="border-t border-line bg-paper-2">
+            <div class="mx-auto grid max-w-6xl gap-12 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[0.85fr_1.15fr]">
+
+                <div>
+                    <p class="eyebrow">02 · Enrolment</p>
+                    <h2 class="mt-3 font-serif text-4xl font-medium tracking-tight md:text-5xl">Your file, complete the first time.</h2>
+                    <p class="mt-5 max-w-md">
+                        Each field is checked while you type, so nothing is missing when the secretariat opens your file.
+                    </p>
+
+                    <ol class="mt-8 grid gap-5">
+                        <li class="flex gap-4">
+                            <span class="grid size-8 shrink-0 place-items-center rounded-full border border-brand/30 font-serif text-brand">1</span>
+                            <p><strong class="block text-ink">Choose your courses</strong><span class="text-sm text-muted">Filter by level and subject, then add them to your selection.</span></p>
+                        </li>
+                        <li class="flex gap-4">
+                            <span class="grid size-8 shrink-0 place-items-center rounded-full border border-brand/30 font-serif text-brand">2</span>
+                            <p><strong class="block text-ink">Fill in the form</strong><span class="text-sm text-muted">A message under each field tells you right away if something is wrong.</span></p>
+                        </li>
+                        <li class="flex gap-4">
+                            <span class="grid size-8 shrink-0 place-items-center rounded-full border border-brand/30 font-serif text-brand">3</span>
+                            <p><strong class="block text-ink">We confirm your place</strong><span class="text-sm text-muted">You get a file number immediately; our team then calls you.</span></p>
+                        </li>
+                    </ol>
+                </div>
+
+                <div>
+                    <div id="registration-summary" role="status"
+                        class="mb-6 hidden rounded-xl border border-ok/30 bg-ok-soft p-5 text-ink">
+                        <h3 class="flex items-center gap-2 font-semibold text-ok">
+                            <i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+                            Enrolment confirmed
+                        </h3>
+                        <p id="registration-summary-text" class="mt-2 text-sm"></p>
+                    </div>
+
+                    <form id="enroll-form" novalidate class="card grid gap-5 p-6 md:grid-cols-2 md:p-8">
+
+                        <div class="form-field md:col-span-2">
+                            <label for="parent-name" class="form-label">Parent’s name</label>
+                            <input id="parent-name" type="text" autocomplete="name" aria-describedby="parent-name-msg" class="input border-gray-300">
+                            <p id="parent-name-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="email" class="form-label">Email address</label>
+                            <input id="email" type="email" autocomplete="email" aria-describedby="email-msg" class="input border-gray-300">
+                            <p id="email-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="phone" class="form-label">Mobile phone</label>
+                            <input id="phone" type="tel" autocomplete="tel" placeholder="06 12 34 56 78" aria-describedby="phone-msg" class="input border-gray-300">
+                            <p id="phone-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="student-name" class="form-label">Student’s full name</label>
+                            <input id="student-name" type="text" aria-describedby="student-name-msg" class="input border-gray-300">
+                            <p id="student-name-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="student-level" class="form-label">Student’s level</label>
+                            <select id="student-level" aria-describedby="student-level-msg" class="input border-gray-300">
+                                <option value="">Choose a level</option>
+                                <option value="Primary">Primary</option>
+                                <option value="Middle School">Middle School</option>
+                                <option value="High School">High School</option>
+                            </select>
+                            <p id="student-level-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="password" class="form-label">Password</label>
+                            <input id="password" type="password" autocomplete="new-password" aria-describedby="password-msg" class="input border-gray-300">
+                            <p id="password-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="confirm-password" class="form-label">Confirm password</label>
+                            <input id="confirm-password" type="password" autocomplete="new-password" aria-describedby="confirm-password-msg" class="input border-gray-300">
+                            <p id="confirm-password-msg" class="text-[14px]"></p>
+                        </div>
+
+                        <div class="md:col-span-2 rounded-lg border border-line bg-paper p-4">
+                            <div class="flex items-start gap-3">
+                                <input id="consent" type="checkbox" aria-describedby="consent-msg consent-notice" class="checkbox border-gray-300">
+                                <label for="consent" class="text-sm text-ink">
+                                    I agree that Nour Academy may use this information to process my enrolment.
+                                </label>
+                            </div>
+                            <p id="consent-msg" class="text-[14px]"></p>
+                            <p id="consent-notice" class="mt-2 text-xs text-muted">
+                                Your data is used only to process your request, in accordance with Law 09-08 (CNDP).
+                                We never ask for a national ID number.
+                            </p>
+                        </div>
+
+                        <p id="selection-error" class="text-[14px] text-red-600 md:col-span-2" role="alert"></p>
+
+                        <button type="submit" class="btn btn-primary md:col-span-2 md:justify-self-start">
+                            Submit my enrolment
+                            <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+                        </button>
+
+                    </form>
+                </div>
             </div>
+        </section>
 
-            <form id="enroll-form" novalidate class="flex flex-col gap-[16px] max-w-[448px] mx-auto">
-
-                <div>
-                    <label for="parent-name">Parent’s name</label>
-                    <input id="parent-name" type="text"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                    <p id="parent-name-msg" class="text-[14px]"></p>
-                </div>
+        <!-- Centres -->
+        <section id="centers" class="border-t border-line">
+            <div class="mx-auto grid max-w-6xl gap-10 px-5 py-16 md:px-8 md:py-24 lg:grid-cols-[0.8fr_1.2fr]">
 
                 <div>
-                    <label for="email">Email address</label>
-                    <input id="email" type="email"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                    <p id="email-msg" class="text-[14px]"></p>
-                </div>
-
-                <div>
-                    <label for="phone">Mobile phone</label>
-                    <input id="phone" type="tel"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                    <p id="phone-msg" class="text-[14px]"></p>
-                </div>
-
-                <div>
-                    <label for="student-name">Student’s Full name</label>
-                    <input id="student-name" type="text"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                    <p id="student-name-msg" class="text-[14px]"></p>
-                </div>
-
-                <div>
-                    <label for="student-level">Student’s level</label>
-                    <select id="student-level"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                        <option value="">Choose a level</option>
-                        <option value="Primary">Primary</option>
-                        <option value="Middle School">Middle School</option>
-                        <option value="High School">High School</option>
-                    </select>
-                    <p id="student-level-msg" class="text-[14px]"></p>
-                </div>
-
-                <div>
-                    <label for="password">Password</label>
-                    <input id="password" type="password"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                    <p id="password-msg" class="text-[14px]"></p>
-                </div>
-
-                <div>
-                    <label for="confirm-password">Confirm password</label>
-                    <input id="confirm-password" type="password"
-                        class="block w-full h-[44px] border-[2px] border-gray-300 rounded-[4px] px-[8px]">
-                    <p id="confirm-password-msg" class="text-[14px]"></p>
-                </div>
-
-                <div>
-                    <input id="consent" type="checkbox" class="w-[24px] h-[24px] border-[2px] border-gray-300">
-                    <label for="consent">I agree that Nour Academy may use this information to process my
-                        enrollment.</label>
-                    <p id="consent-msg" class="text-[14px]"></p>
-                    <p class="text-[12px] text-gray-600">
-                        Your data is used only to process your request, in accordance with Law 09-08.
+                    <p class="eyebrow">03 · Right near you</p>
+                    <h2 class="mt-3 font-serif text-4xl font-medium tracking-tight md:text-5xl">Three centres. The same commitment.</h2>
+                    <p class="mt-5 max-w-sm text-muted">
+                        A welcoming place, an attentive team and good habits for learning, wherever you live in Nador.
                     </p>
                 </div>
 
-                <p id="selection-error" class="text-[14px] text-red-600" role="alert"></p>
-
-                <button type="submit" class="min-h-[44px] bg-blue-900 text-white rounded-[4px] px-4">
-                    Submit my enrollment
-                </button>
-
-            </form>
-        </section>
-        
-        <!-- Centers -->
-        <section id="centers" class="px-6 py-10 md:px-[60px]">
-
-            <p class="mb-3 text-xs font-semibold uppercase text-[var(--color-primary)]">
-                03 / Right near you
-            </p>
-
-            <h2 class="mb-2 text-4xl text-[var(--color-primary)]">
-                Three centers. The same commitment.
-            </h2>
-
-            <p class="mb-8 text-sm text-[var(--color-primary)]">
-                A welcoming place, an attentive team and good habits for learning.
-            </p>
-
-            <div class="grid gap-4 md:grid-cols-3">
-
-                <article class="rounded-2xl border border-[var(--color-accent)] p-6">
-                    <div
-                        class="mb-6 flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary)]">
-                        <i class="fa-solid fa-landmark" aria-hidden="true"></i>
-                    </div>
-                    <h3 class="mb-4 text-2xl text-[var(--color-primary)]">Nador Centre</h3>
-                    <p class="mb-3 text-xs text-[var(--color-primary)]">In the heart of the city</p>
-                    <p class="mb-3 text-xs text-[var(--color-primary)]">12, Mohammed V Avenue, Nador</p>
-                    <p class="mb-6 text-xs text-[var(--color-primary)]">Mon–Sat · 9am–7pm</p>
-                </article>
-
-
-                <article class="rounded-2xl border border-[var(--color-accent)] p-6">
-                    <div
-                        class="mb-6 flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary)]">
-                        <i class="fa-solid fa-tree" aria-hidden="true"></i>
-                    </div>
-                    <h3 class="mb-4 text-2xl text-[var(--color-primary)]">Hay Al Matar</h3>
-                    <p class="mb-3 text-xs text-[var(--color-primary)]">A calm setting for learning</p>
-                    <p class="mb-3 text-xs text-[var(--color-primary)]">24, Schools Street, Hay Al Matar</p>
-                    <p class="mb-6 text-xs text-[var(--color-primary)]">Mon–Sat · 10am–8pm</p>
-                </article>
-
-
-                <article class="rounded-2xl border border-[var(--color-accent)] p-6">
-                    <div
-                        class="mb-6 flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary)]">
-                        <i class="fa-solid fa-house-chimney" aria-hidden="true"></i>
-                    </div>
-                    <h3 class="mb-4 text-2xl text-[var(--color-primary)]">Selouane</h3>
-                    <p class="mb-3 text-xs text-[var(--color-primary)]">Very close to home</p>
-                    <p class="mb-3 text-xs text-[var(--color-primary)]">8, Al Amal Avenue, Selouane</p>
-                    <p class="mb-6 text-xs text-[var(--color-primary)]">Mon–Sat · 9am–6pm</p>
-                </article>
-
+                <ul class="divide-y divide-line border-y border-line">
+                    <li class="group grid gap-2 py-6 transition-colors sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
+                        <div>
+                            <h3 class="font-serif text-2xl font-medium transition-colors group-hover:text-brand">Nador Centre</h3>
+                            <p class="mt-1 text-sm text-muted">In the heart of the city · 12, Mohammed V Avenue, Nador</p>
+                        </div>
+                        <p class="flex items-center gap-2 text-sm text-ink-soft"><i class="fa-regular fa-clock text-muted" aria-hidden="true"></i>Mon–Sat · 9am–7pm</p>
+                    </li>
+                    <li class="group grid gap-2 py-6 transition-colors sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
+                        <div>
+                            <h3 class="font-serif text-2xl font-medium transition-colors group-hover:text-brand">Hay Al Matar</h3>
+                            <p class="mt-1 text-sm text-muted">A calm setting for learning · 24, Schools Street, Hay Al Matar</p>
+                        </div>
+                        <p class="flex items-center gap-2 text-sm text-ink-soft"><i class="fa-regular fa-clock text-muted" aria-hidden="true"></i>Mon–Sat · 10am–8pm</p>
+                    </li>
+                    <li class="group grid gap-2 py-6 transition-colors sm:grid-cols-[1fr_auto] sm:items-baseline sm:gap-8">
+                        <div>
+                            <h3 class="font-serif text-2xl font-medium transition-colors group-hover:text-brand">Selouane</h3>
+                            <p class="mt-1 text-sm text-muted">Very close to home · 8, Al Amal Avenue, Selouane</p>
+                        </div>
+                        <p class="flex items-center gap-2 text-sm text-ink-soft"><i class="fa-regular fa-clock text-muted" aria-hidden="true"></i>Mon–Sat · 9am–6pm</p>
+                    </li>
+                </ul>
             </div>
-
-
-
         </section>
-
 
     </main>
 
     <!-- Footer -->
-    <footer id="contact" class="bg-[var(--color-primary)] px-6 py-10 text-white md:px-[60px]">
-
-        <div class="grid gap-8 md:grid-cols-3">
+    <footer id="contact" class="bg-brand-strong text-white/80">
+        <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-[1.2fr_1fr_auto] md:px-8">
 
             <div>
-                <div class="mb-4 flex items-center gap-3">
-                    <div
-                        class="flex h-11 w-11 items-center justify-center rounded-xl bg-[var(--color-accent)] text-[var(--color-primary)]">
-                        <i class="fa-solid fa-book-open" aria-hidden="true"></i>
-                    </div>
-                    <p class="text-2xl font-semibold">nour <span class="text-xs font-normal uppercase">Academy</span>
-                    </p>
-                </div>
-                <p class="text-sm">A little confidence today. New possibilities tomorrow.</p>
+                <p class="wordmark text-white">
+                    <img src="images/logo.svg" alt="" class="rounded-md bg-paper p-1">
+                    <span>Nour <small class="text-white/60">Academy</small></span>
+                </p>
+                <p class="mt-4 max-w-xs font-serif text-lg italic text-white/90">A little confidence today. New possibilities tomorrow.</p>
             </div>
 
             <div>
-                <p class="mb-2 text-xs font-semibold uppercase">Let’s talk about their success</p>
-                <a href="tel:+212536601234" class="mb-2 block text-3xl font-semibold">05 36 60 12 34</a>
-                <a href="mailto:contact@nour-academy.ma" class="text-sm underline">contact@nour-academy.ma</a>
+                <p class="text-xs font-semibold tracking-[0.12em] text-white/60 uppercase">Let’s talk about their success</p>
+                <a href="tel:+212536601234" class="mt-3 block font-serif text-3xl text-white transition-colors hover:text-saffron">05 36 60 12 34</a>
+                <a href="mailto:contact@nour-academy.ma" class="mt-1 inline-block text-sm underline decoration-white/30 underline-offset-4 transition-colors hover:decoration-white">contact@nour-academy.ma</a>
             </div>
 
-            <nav class="flex flex-col gap-2 text-sm md:items-end">
-                <a href="#home">Home</a>
-                <a href="#courses">Courses</a>
-                <a href="#centers">Centers</a>
+            <nav aria-label="Footer" class="grid content-start gap-2 text-sm md:justify-items-end">
+                <a href="#courses" class="transition-colors hover:text-white">Courses</a>
+                <a href="#enrollment" class="transition-colors hover:text-white">Enrolment</a>
+                <a href="#centers" class="transition-colors hover:text-white">Centres</a>
+                <a href="teacher/index.html" class="transition-colors hover:text-white">Teacher area</a>
             </nav>
-
         </div>
-
+        <div class="border-t border-white/10">
+            <p class="mx-auto max-w-6xl px-5 py-5 text-xs text-white/50 md:px-8">© Nour Academy · Nador · Fictitious data for demonstration (Law 09-08).</p>
+        </div>
     </footer>
 
 </body>
